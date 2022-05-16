@@ -22,12 +22,12 @@ public class ProjectEmployee {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	@Enumerated
-	private EmployeeStatus employeeStatus;
 	@ManyToOne
 	@JoinColumn(name="project_id")
 	private Project project;
 	@ManyToOne
 	@JoinColumn(name="employee_id")
 	private Employee employee;
+	@Enumerated
+	private EmployeeStatus employeeStatus;
 }

@@ -1,10 +1,13 @@
 package com.sahabt.project.service.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import com.sahabt.project.exception.ProjectNotFoundException;
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -63,4 +66,11 @@ public class ProjectServiceImpl implements ProjectService {
 				.toList();
 	}
 
+	public List<ProjectResponse> getProjectsByDate(LocalDate date) throws ProjectNotFoundException {
+		var date1 = LocalDate.of(date.getYear(),date.getMonthValue(),date.getDayOfMonth());
+		var list = projectRepository.findByEndDate(date1);
+		if(list.isEmpty())
+			throw new ProjectNotFoundException("there is no flight record on:" + date);
+		return list.stream().map(pro -> modelMapper.map(pro, ProjectResponse.class)).toList();
+	}
 }

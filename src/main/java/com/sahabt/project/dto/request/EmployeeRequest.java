@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class EmployeeRequest {
 	
 	private String name;
-	private double salary;
 }

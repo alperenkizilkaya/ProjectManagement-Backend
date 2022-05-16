@@ -25,7 +25,6 @@ public class Employee {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private double salary;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy="employee")
