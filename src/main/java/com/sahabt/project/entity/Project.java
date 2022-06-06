@@ -2,26 +2,36 @@ package com.sahabt.project.entity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name="projects")
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@DynamicUpdate
 public class Project {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank
+	@NotNull
 	private String projectName;
 	private String description;
 	private boolean isActive;
@@ -33,6 +43,30 @@ public class Project {
 	@JsonIgnore
 	@OneToMany(mappedBy="project")
 	List<ProjectEmployee> projectEmployee;
-	@ManyToOne
-	private Customer customer;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Project project = (Project) o;
+		return id.equals(project.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public String toString() {
+		return "Project{" +
+				"id=" + id +
+				", projectName='" + projectName + '\'' +
+				", description='" + description + '\'' +
+				", isActive=" + isActive +
+				", startDate=" + startDate +
+				", endDate=" + endDate +
+				", offer='" + offer + '\'' +
+				'}';
+	}
 }
